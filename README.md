@@ -1,7 +1,7 @@
 # VegieArticles
 
 ## Purpose
-This is a web app that lets users view and leave comments on articles (Vegetable IPM Advisory) scraped from Utah State University (USU) Extension website.
+This is a web app that lets users view and leave comments on Pest Advisory articles scraped from Utah State University (USU) Extension website (https://pestadvisories.usu.edu/category/fruit/).
 
 ## Instructions
 1.When a user visits this site, the app will scrape articles from USU Extension website and display the following on the main page:
