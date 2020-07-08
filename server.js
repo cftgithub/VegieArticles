@@ -31,8 +31,8 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-var mondb = process.env.MOGODB_URI || "mongodb://localhost/vegieArticles";
-mongoose.connect(mondb, { useNewUrlParser: true }, function (error) {
+var MONGODB_URI = process.env.MOGODB_URI || "mongodb://localhost/vegieArticles";
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true }, function (error) {
     if (error) {
         console.log(error);
     } else {
