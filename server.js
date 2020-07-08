@@ -3,7 +3,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 var exphbs = require("express-handlebars");
 
-// Our scraping tools
+// Scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
 // It works on the client and on the server
 var axios = require("axios");
@@ -16,9 +16,6 @@ var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
-
-// var router = express.Router();
-// require("./config/routes.js")(app);
 
 // Configure middleware
 
@@ -33,8 +30,6 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-// Router middleware to connect router in routes.js
-// app.use(router);
 // Connect to the Mongo DB
 var mondb = process.env.MOGODB_URI || "mongodb://localhost/vegieArticles";
 mongoose.connect(mondb, { useNewUrlParser: true }, function (error) {
@@ -60,7 +55,7 @@ app.get("/", function (req, res) {
         });
 });
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with axios
     axios.get("https://pestadvisories.usu.edu/category/fruit/").then(function (response) {
@@ -82,6 +77,10 @@ app.get("/scrape", function (req, res) {
                 .attr("href");
             result.summary = $(this)
                 .find("p").text();
+            result.image = $(this)
+                .find("a")
+                .children("img")
+                .attr("src");
             // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
                 .then(function (dbArticle) {
@@ -94,49 +93,43 @@ app.get("/scrape", function (req, res) {
                 });
         });
 
-        // Send a message to the client
         res.send("Scrape Complete");
     });
 });
 
-// Route for getting all Articles from the db
-// This one is working
 app.get("/articles", function (req, res) {
-    // TODO: Finish the route so it grabs all of the articles
-    db.Article.find({})
-        .then(function (dbArticle) {
-            res.send(dbArticle);
+    db.Article.find({}).sort({ _id: -1 })
+        .then(function (response) {
+            res.send(response);
         })
         .catch(function (err) {
+            console.log(err);
             res.send(err);
         });
 });
 
-// Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function (req, res) {
-    db.Article.find({ _id: req.params.id })
-        .populate("note")
-        .then(function (dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function (err) {
-            res.json(err);
-        });
-});
+    db.Article.findOne({ _id: req.params.id })
+      .populate("note")
+      .then(function (response) {
+        res.json(response);
+      })
+      .catch(function (err) {
+        console.log(err);
+        res.send(err);
+      })
+  });
 
-// Route for saving/updating an Article's associated Note (Only to the first article)
 app.post("/articles/:id", function (req, res) {
     db.Note.create(req.body)
-        .then(function (dbNote) {
-            return db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
-        })
-        .then(function (dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function (err) {
-            res.json(err);
-        })
-});
+      .then(function (dbNote) {
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, {note: dbNote._id}, { new: true});
+      })
+      .catch(function (err) {
+        console.log(err);
+        res.json(err);
+      });
+  });
 
 // Start the server
 app.listen(PORT, function () {

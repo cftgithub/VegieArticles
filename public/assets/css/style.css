@@ -1,30 +1,28 @@
-body { background-color: #F2F6D0 }
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
-      }
-      #articles {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 700px;
-      }
-      #notes {
-        float: right;
-        width: 30%;
-      }
-      textarea, input {
-        display: block;
-        width: 100%;
-        background-color: #FCF5C7;
-      }
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
+body {
+  /* background-color: #cea166; */
+  background-image: url(../images/woodYellow.jpg);
+}
+
+.jumbotron {
+  background-color: #f3d0a0;
+  /* background-color: #cea166; */
+  ;
+  background-image: url(../images/bgdSwirls.png);
+  margin-bottom: 0;
+}
+
+h1.display-4, p.lead {
+  font-weight: bolder;
+}
+
+img {
+  border-width: 5px;
+  border-color: #ca9145;
+  border-style: solid;
+  margin: 8px 0px;
+}
+
+.card-body, .card-header {
+  background-color: #f3d0a0;
+  background-image: url(../images/grunge-wall.png);
+}
