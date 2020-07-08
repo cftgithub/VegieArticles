@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-var MONGODB_URI = process.env.MOGODB_URI || "mongodb://localhost/vegieArticles";
+var MONGODB_URI = process.env.MOGODB_URI || "mongodb://vege:broccol1@ds113815.mlab.com:13815/heroku_jl6hnv40";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true }, function (error) {
     if (error) {
         console.log(error);
