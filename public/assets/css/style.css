@@ -23,6 +23,15 @@ img {
 }
 
 .card-body, .card-header {
-  background-color: #f3d0a0;
+  /* background-color: #f3d0a0; */
   background-image: url(../images/grunge-wall.png);
+}
+
+.card-header {
+  background-color: #f5dcb4;
+}
+
+.card-body {
+  background-color: #f7d8a7;
+  /* background-color: #f3d0a0; */
 }
